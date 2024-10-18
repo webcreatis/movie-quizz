@@ -1,8 +1,11 @@
-import "./style.css";
 import Lenis from "lenis";
+import "./style.css";
 
 // Initialize Lenis
-const lenis = new Lenis();
+const lenis = new Lenis({
+  lerp: 0.01,
+  wheelMultiplier: 1,
+});
 
 // Listen for the scroll event and log the event data
 lenis.on("scroll", (e) => {
