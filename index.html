@@ -7,9 +7,14 @@
     <title>Movies quizz</title>
   </head>
   <body>
-    <div id="app">
-      <h1 class="text-2xl text-red-600">Movies quizz !</h1>
+    <div id="app" class="bg-black">
+      <div class="w-full h-screen overflow-hidden relative">
+        <div id="image-grid" class="flex flex-wrap w-full h-full justify-center min-[320px]:gap-0 min-[768px]:gap-1 min-[1440px]:gap-3">
+          <!-- Images du wall ajoutées dynamiquement ici -->
+        </div>
+      </div>
     </div>
     <script type="module" src="/main.js"></script>
+    <script type="module" src="/picsWall.js"></script>
   </body>
 </html>
