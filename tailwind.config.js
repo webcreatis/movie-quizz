@@ -22,6 +22,7 @@ export default {
       },
       colors: {
         black: "#1D1D1D ",
+        tomato: "#FF6347",
       },
     },
   },
