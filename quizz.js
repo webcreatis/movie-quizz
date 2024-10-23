@@ -18,7 +18,9 @@ function clean() {
 // function qui crée le html du titre de la question
 function getTitleElement(text) {
   const title = document.createElement("h3");
+  title.style.color = "white";
   title.innerText = text;
+  title.style.fontSize = "20px";
   return title;
 }
 
@@ -27,7 +29,6 @@ function getAudioElement(url) {
   const playerAudio = document.createElement("audio");
   playerAudio.classList.add("audio", "hidden");
   playerAudio.setAttribute("src", url);
-  console.log("playerAudio", playerAudio);
   return playerAudio;
 }
 
@@ -43,6 +44,7 @@ function getAnswerElement(text) {
   const id = formatId(text);
   input.id = id;
   label.htmlFor = id;
+  input.classList.add("appearance-none");
   input.setAttribute("type", "radio");
   input.setAttribute("name", "answer");
   input.setAttribute("value", text);
@@ -53,36 +55,60 @@ function getAnswerElement(text) {
 // function qui change le style du wrapper suivant la question
 function changeStyleWrapper(bg) {
   wrapper.style.backgroundImage = `url(${bg})`;
-  wrapper.style.width = "60%";
   wrapper.style.height = "auto";
-  wrapper.style.top = "30%";
-  wrapper.style.height = "500px";
-  wrapper.style.backgroundPosition = "50px 50%";
-  wrapper.style.backgroundSize = "200px";
+  wrapper.classList.add(
+    "smallMobile:top-[10%]",
+    "smallMobile:w-full",
+    "smallMobile:bg-none",
+    "smallMobile:bg-cover",
+    "tablet:bg-[center_left_2rem]",
+    "tablet:bg-[length:150px_200px]",
+    "largeTablet:bg-[length:150px_200px]",
+    "largeTablet:top-[3%]",
+    "laptop:bg-[center_left_3rem]",
+    "largeDesktop:bg-[center_left_2rem]",
+    "largeDesktop:bg-[length:160px_200px]",
+    "largeDesktop:w-[50%]",
+    "largeDesktop:top-[20%]"
+  );
 }
 
 // function qui affiche les réponses
 function createAnswers(answers) {
   const answerContainer = document.createElement("div");
-  answerContainer.classList.add("flex", "flex-col");
+  answerContainer.classList.add(
+    "flex",
+    "flex-col",
+    "smallMobile:w-full",
+    "tablet:items-end",
+    "tablet:w-[80%]",
+    "laptop:w-[50%]",
+    "largeDesktop:w-[100%]",
+    "tablet:mt-10"
+  );
 
   for (const answer of answers) {
     const label = getAnswerElement(answer);
     label.classList.add(
-      "w-[350px]",
+      "smallMobile:w-full",
+      "smallMobile:text-base",
+      "smallMobile:p-[8px]",
+      "tablet:w-[250px]",
+      "largeTablet:w-[350px]",
       "p-[12px]",
       "block",
       "flex",
       "border",
       "border-2",
-      "border-[#64748b]",
+      "border-[#414147]",
       "rounded-xl",
       "items-center",
-      "justify-between",
+      "justify-center",
       "text-xl",
       "mt-5",
       "has-[:checked]:border-tomato",
-      "bg-green"
+      "has-[:checked]:bg-tomato",
+      "bg-white"
     );
     answerContainer.appendChild(label);
   }
@@ -97,10 +123,27 @@ function getSubmitButton() {
 
 //function submit (bouton validation)
 function submitAnswer(button, question) {
+  let errorMessage = null;
+
   button.addEventListener("click", () => {
     const selectedAnswer = wrapper.querySelector(
       'input[name="answer"]:checked'
     );
+
+    if (!selectedAnswer) {
+      // Vérifie si un message d'erreur n'existe pas déjà
+      if (!errorMessage) {
+        errorMessage = showErrorInputValidation();
+        wrapper.appendChild(errorMessage);
+      }
+      return;
+    } else {
+      // Supprime le message d'erreur s'il existe
+      if (errorMessage) {
+        wrapper.removeChild(errorMessage);
+      }
+    }
+
     const valueSelected = selectedAnswer.value;
 
     const isCorrectAnswer = question.correct === valueSelected;
@@ -134,6 +177,10 @@ function showFeedBack(isCorrect, correct, value) {
 
   correctElement.classList.add("bg-lime-300");
   correctElement.style.color = "black";
+  selectedElement.classList.remove("bg-white");
+  selectedElement.classList.remove("has-[:checked]:bg-tomato");
+  selectedElement.classList.remove("has-[:checked]:border-tomato");
+  correctElement.classList.remove("bg-white");
   selectedElement.classList.add(isCorrect ? "bg-lime-300" : "bg-red-700");
   selectedElement.style.color = isCorrect ? "black" : "white";
 
@@ -150,7 +197,7 @@ function displayQuestion(index) {
   }
 
   const title = getTitleElement(question.question);
-  const answersDiv = createAnswers(question.answers);
+  const answersDiv = createAnswers(question.answers, question.bg);
   const player = getAudioElement(question.audioUrl);
 
   const validationButton = getSubmitButton();
@@ -169,13 +216,32 @@ function displayQuestion(index) {
   submitAnswer(validationButton, question);
 }
 
+// function qui affiche les erreurs du formulaire
+function showErrorInputValidation() {
+  const messageError = document.createElement("p");
+  messageError.innerText = "Veuillez selectionner une réponse";
+  messageError.style.color = "white";
+  return messageError;
+}
+
 // function qui affiche un message
 function getFeedBackMessage(isCorrect, correctAnswer) {
   const message = document.createElement("p");
   message.innerText = isCorrect
     ? "Bravo vous avez trouvé la bonne réponse"
     : `Désolé ! la bonne réponse était ${correctAnswer}`;
-  message.style.color = "black";
+  message.style.color = "white";
+  message.style.width = "100%";
+  message.classList.add(
+    "flex",
+    "justify-end",
+    "mr-20",
+    "mt-5",
+    "smallMobile:text-center",
+    "smallMobile:mr-0",
+    "largeTablet:justify-center",
+    "largeTablet:mr-0"
+  );
   return message;
 }
 
@@ -188,15 +254,25 @@ function startQuiz(event) {
 // Message de fin du quiz + bouton rechargement du quiz
 function displayFinishMessage() {
   const title = document.createElement("h2");
-  title.innerText = "Vous êtes arrivé à la fin du quiz !";
+  title.innerText = "Bravo vous êtes arrivé à la fin du quiz !";
+  title.style.color = "white";
   const message = document.createElement("p");
+  message.style.color = "white";
   message.innerText = `Votre score est de ${score} sur ${Questions.length} points...`;
+  const felicitations = document.createElement("p");
+  felicitations.innerText =
+    score <= Math.floor(Questions.length / 2)
+      ? "Peu mieux faire :("
+      : "Pas mal du tout :)";
+  felicitations.style.color = "white";
 
   const reloadButton = getreloadButton();
 
   wrapper.appendChild(title);
   wrapper.appendChild(message);
+  wrapper.appendChild(felicitations);
   wrapper.appendChild(reloadButton);
+  wrapper.style.backgroundImage = "none";
 
   reloadButton.addEventListener("click", () => {
     reloadPage();

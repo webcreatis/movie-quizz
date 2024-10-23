@@ -3,8 +3,11 @@ export default {
   content: ["./**/*.{html,js}"],
   theme: {
     screens: {
+      smallMobile: "320px",
       tablet: "640px",
+      largeTablet: "768px",
       laptop: "1024px",
+      largeDesktop: "1440px",
       desktopHD: "2560px",
     },
     extend: {
