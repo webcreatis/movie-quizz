@@ -5,8 +5,6 @@ const wrapper = document.querySelector("#wrapper");
 let score = 0;
 let currentQuestion = 0;
 
-console.log(Questions);
-
 // evenement click pour démarrer le quizz
 buttonStart.addEventListener("click", startQuiz);
 
@@ -93,26 +91,7 @@ function createAnswers(answers) {
 
 // function qui crée le bouton de validation
 function getSubmitButton() {
-  const submitButton = document.createElement("button");
-  submitButton.innerText = "Je valide";
-  submitButton.classList.add(
-    "flex",
-    "justify-center",
-    "items-center",
-    "bg-tomato",
-    "outline-none",
-    "cursor-pointer",
-    "rounded-sm",
-    "text-base",
-    "text-white",
-    "p-4",
-    "border-none",
-    "rounded-2xl",
-    "mt-10",
-    "min-w-[250px]",
-    "h-[38px]",
-    "min-[320px]:mb-5"
-  );
+  const submitButton = createButton("Je valide");
   return submitButton;
 }
 
@@ -134,7 +113,7 @@ function submitAnswer(button, question) {
 
     button.remove();
 
-    const nextButton = getNextButton();
+    const nextButton = getNextButton(currentQuestion);
     wrapper.appendChild(nextButton);
 
     nextButton.addEventListener("click", submitNextAnswer(nextButton));
@@ -206,29 +185,57 @@ function startQuiz(event) {
   displayQuestion(currentQuestion);
 }
 
-// Message de fin du quiz
+// Message de fin du quiz + bouton rechargement du quiz
 function displayFinishMessage() {
   const title = document.createElement("h2");
-  title.innerText = "Bravo vous avez Terminé le quiz";
+  title.innerText = "Vous êtes arrivé à la fin du quiz !";
   const message = document.createElement("p");
   message.innerText = `Votre score est de ${score} sur ${Questions.length} points...`;
 
+  const reloadButton = getreloadButton();
+
   wrapper.appendChild(title);
   wrapper.appendChild(message);
-}
+  wrapper.appendChild(reloadButton);
 
-// affichage de la progress Bar
-function displayProgressBar(max, value) {
-  const bar = document.createElement("progress");
-  bar.setAttribute("max", max);
-  bar.setAttribute("value", value);
+  reloadButton.addEventListener("click", () => {
+    reloadPage();
+  });
 }
 
 // function qui crée le bouton Next questions
-function getNextButton() {
-  const nextButton = document.createElement("button");
-  nextButton.innerText = "Question suivante";
-  nextButton.classList.add(
+function getNextButton(index) {
+  const isLastQuestion = index === Questions.length - 1;
+  const nextButton = createButton(
+    isLastQuestion ? "Résultat" : "Question suivante"
+  );
+  return nextButton;
+}
+
+//function voir question suivante
+function submitNextAnswer(button) {
+  button.addEventListener("click", () => {
+    currentQuestion++;
+    displayQuestion(currentQuestion);
+  });
+}
+
+//function pour créer le bouton de rechargement du quizz
+function getreloadButton() {
+  const reloadButton = createButton("Je recommence le quiz");
+  return reloadButton;
+}
+
+// Fonction pour recharger la page aprés la fin du quiz
+function reloadPage() {
+  location.reload(); // Recharge la page
+}
+
+// création du bouton du quizz
+function createButton(text) {
+  const button = document.createElement("button");
+  button.innerText = text;
+  button.classList.add(
     "flex",
     "justify-center",
     "items-center",
@@ -246,13 +253,5 @@ function getNextButton() {
     "h-[38px]",
     "min-[320px]:mb-5"
   );
-  return nextButton;
-}
-
-//function voir question suivante
-function submitNextAnswer(button) {
-  button.addEventListener("click", () => {
-    currentQuestion++;
-    displayQuestion(currentQuestion);
-  });
+  return button;
 }
