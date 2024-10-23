@@ -34,7 +34,7 @@ fetch("./pics.json")
       setTimeout(() => {
         imageBox.classList.remove("opacity-0");
         imageBox.classList.add("opacity-100");
-      }, index * 100);
+      }, index * 50);
 
       return imageBox;
     });
@@ -77,7 +77,7 @@ fetch("./pics.json")
     };
 
     // Lance l'animation infinie après que toutes les images sont affichées
-    setTimeout(startRandomInfiniteAnimation, data.length * 100);
+    setTimeout(startRandomInfiniteAnimation, data.length * 10);
   })
   .catch((error) =>
     console.error("Erreur lors du chargement des images:", error)

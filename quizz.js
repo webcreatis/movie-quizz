@@ -202,11 +202,13 @@ function displayQuestion(index) {
   const title = getTitleElement(question.question);
   const answersDiv = createAnswers(question.answers, question.bg);
   const player = getAudioElement(question.audioUrl);
+  const displayNumbersOfQuestions = getQuestionsNumbers();
 
   const validationButton = getSubmitButton();
 
   changeStyleWrapper(question.bg);
 
+  wrapper.appendChild(displayNumbersOfQuestions);
   wrapper.appendChild(title);
   wrapper.appendChild(answersDiv);
   wrapper.appendChild(validationButton);
@@ -261,6 +263,7 @@ function displayFinishMessage() {
   const title = document.createElement("h2");
   title.innerText = "Bravo vous êtes arrivé à la fin du quiz !";
   title.style.color = "white";
+  title.style.fontSize = "20px";
   const message = document.createElement("p");
   message.style.color = "white";
   message.innerText = `Votre score est de ${score} sur ${Questions.length} points...`;
@@ -301,14 +304,14 @@ function submitNextAnswer(button) {
   });
 }
 
-//function pour créer le bouton de rechargement du quizz
 function getreloadButton() {
+  //function pour créer le bouton de rechargement du quizz
   const reloadButton = createButton("Je recommence le quiz");
   reloadButton.classList.add("animate-fadeIn");
   return reloadButton;
 }
 
-// Fonction pour recharger la page aprés la fin du quiz
+// Fonction pour recharger la page aprés la fin du quizhttp://localhost:5173/gladiator.webp
 function reloadPage() {
   location.reload(); // Recharge la page
 }
@@ -326,8 +329,8 @@ function createButton(text) {
     "cursor-pointer",
     "rounded-sm",
     "text-base",
-    "text-white",
     "p-4",
+    "text-white",
     "border-none",
     "rounded-2xl",
     "mt-10",
@@ -336,4 +339,25 @@ function createButton(text) {
     "min-[320px]:mb-5"
   );
   return button;
+}
+
+// function qui affiche le nombre de questions du quiz
+
+function getQuestionsNumbers() {
+  const numberOfQuestions = document.createElement("div");
+  numberOfQuestions.classList.add(
+    "flex",
+    "justify-center",
+    "items-center",
+    "absolute",
+    "-top-5",
+    "text-black",
+    "w-[200px]",
+    "h-auto",
+    "bg-tomato",
+    "p-2",
+    "rounded-2xl"
+  );
+  numberOfQuestions.innerText = `${currentQuestion} / ${Questions.length - 1}`;
+  return numberOfQuestions;
 }
