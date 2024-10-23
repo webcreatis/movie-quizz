@@ -66,8 +66,9 @@ function changeStyleWrapper(bg) {
     "largeTablet:bg-[length:150px_200px]",
     "largeTablet:top-[3%]",
     "laptop:bg-[center_left_3rem]",
+    "largeDesktop:bg-[length:170px_220px]",
     "largeDesktop:bg-[center_left_2rem]",
-    "largeDesktop:bg-[length:160px_200px]",
+    "largeDesktop:bg-[length:200px_250px]",
     "largeDesktop:w-[50%]",
     "largeDesktop:top-[20%]"
   );
@@ -108,7 +109,9 @@ function createAnswers(answers) {
       "mt-5",
       "has-[:checked]:border-tomato",
       "has-[:checked]:bg-tomato",
-      "bg-white"
+      "bg-white",
+      "hover:cursor-pointer",
+      "hover:bg-tomato"
     );
     answerContainer.appendChild(label);
   }
@@ -221,6 +224,7 @@ function showErrorInputValidation() {
   const messageError = document.createElement("p");
   messageError.innerText = "Veuillez selectionner une réponse";
   messageError.style.color = "white";
+  messageError.classList.add("animate-fadeIn");
   return messageError;
 }
 
@@ -240,7 +244,8 @@ function getFeedBackMessage(isCorrect, correctAnswer) {
     "smallMobile:text-center",
     "smallMobile:mr-0",
     "largeTablet:justify-center",
-    "largeTablet:mr-0"
+    "largeTablet:mr-0",
+    "animate-fadeIn"
   );
   return message;
 }
@@ -299,6 +304,7 @@ function submitNextAnswer(button) {
 //function pour créer le bouton de rechargement du quizz
 function getreloadButton() {
   const reloadButton = createButton("Je recommence le quiz");
+  reloadButton.classList.add("animate-fadeIn");
   return reloadButton;
 }
 
