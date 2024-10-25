@@ -2,6 +2,8 @@
 fetch("/pics.json")
   .then((response) => response.json())
   .then((data) => {
+    console.log("data---------------->", data);
+
     const imageGrid = document.getElementById("image-grid");
 
     // Création d'un container pour chaque image et on l'ajoute au DOM
