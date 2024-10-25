@@ -1,5 +1,5 @@
 // Fonction pour charger le JSON
-fetch("./pics.json")
+fetch("/pics.json")
   .then((response) => response.json())
   .then((data) => {
     const imageGrid = document.getElementById("image-grid");
