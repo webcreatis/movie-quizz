@@ -325,7 +325,9 @@ function displayFinishMessage() {
   );
   const message = document.createElement("p");
   message.style.color = "white";
-  message.innerText = `Votre score est de ${score} sur ${Questions.length} points...`;
+  message.innerText = `Votre score est de ${score} sur ${
+    Questions.length - 1
+  } points...`;
   const commentResult = document.createElement("p");
   commentResult.innerText =
     score <= Math.floor(Questions.length / 2)
