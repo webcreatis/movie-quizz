@@ -188,12 +188,12 @@ export const Questions = [
   {
     question: "Comment peut-on invoquer Candyman dans le film ?",
     answers: [
-      "En chantant une comptine spécifique devant un miroir",
-      "En allumant une bougie et prononçant son nom trois fois",
-      "En disant son nom cinq fois devant un miroir",
-      "En dessinant son symbole sur le mur et disant son nom à voix haute",
+      "En prononçant son nom 4 fois",
+      "En prononçant son nom 3 fois",
+      "En prononçant son nom 5 fois",
+      "En prononçant son nom",
     ],
-    correct: "En disant son nom cinq fois devant un miroir",
+    correct: "En prononçant son nom 5 fois",
     bg: "/candyman.webp",
     audioUrl: "/candyman.mp3",
   },

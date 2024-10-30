@@ -104,6 +104,7 @@ function createAnswers(answers) {
   answerContainer.classList.add(
     "flex",
     "flex-col",
+    "h-auto",
     "smallMobile:w-full",
     "smallMobile:items-center",
     "smallMobile:mt-5",
